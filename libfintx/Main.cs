@@ -122,56 +122,6 @@ namespace libfintx
         }
 
         /// <summary>
-        /// Account balance
-        /// </summary>
-        /// <param name="Account"></param>
-        /// <param name="BLZ"></param>
-        /// <param name="IBAN"></param>
-        /// <param name="BIC"></param>
-        /// <param name="URL"></param>
-        /// <param name="HBCIVersion"></param>
-        /// <param name="UserID"></param>
-        /// <param name="PIN"></param>
-        /// <returns>
-        /// Balance
-        /// </returns>
-        public static string Balance_ANONYMOUS(int Account, int BLZ, string IBAN, string BIC, string URL, int HBCIVersion, string UserID, string PIN)
-        {
-            if (Transaction.INI_ANONYMOUS(BLZ, URL, HBCIVersion, UserID, PIN) == true)
-            {
-                // Success
-                var BankCode = Transaction.HKSAL(Account, BLZ, IBAN, BIC, URL, HBCIVersion, UserID, PIN);
-
-                if (BankCode.Contains("+0020::"))
-                {
-                    // Success
-                    return "Kontostand: " + Helper.Parse_Balance(BankCode);
-                }
-                else
-                {
-                    // Error
-                    var BankCode_ = "HIRMS" + Helper.Parse_String(BankCode, "'HIRMS", "'");
-
-                    String[] values = BankCode_.Split('+');
-
-                    string msg = string.Empty;
-
-                    foreach (var item in values)
-                    {
-                        if (!item.StartsWith("HIRMS"))
-                            msg = msg + "??" + item.Replace("::", ": ");
-                    }
-
-                    Log.Write(msg);
-
-                    return msg;
-                }
-            }
-            else
-                return "Error";
-        }
-
-        /// <summary>
         /// Account transactions
         /// </summary>
         /// <param name="Account"></param>
