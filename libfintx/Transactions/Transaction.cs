@@ -233,6 +233,25 @@ namespace libfintx
         /// <summary>
         /// Balance
         /// </summary>
+        public static string HKSAL_ANONYMOUS(int Konto, int BLZ, string IBAN, string BIC, string URL, int HBCIVersion, string UserID, string PIN)
+        {
+            Log.Write("Starting job HKSAL: Request balance");
+
+            string segments = string.Empty;
+
+            if (Convert.ToInt16(Segment.HISALS) >= 7)
+                segments = "HKSAL:3:" + Segment.HISALS + "+" + IBAN + ":" + BIC + "+N'";
+            else
+            {
+                segments = "HKSAL:3:" + Segment.HISALS + "+" + Konto + "::280:" + BLZ + "+N'";
+            }
+
+            return FinTSMessage.Send(URL, FinTSMessage.Create_ANONYMOUS(HBCIVersion, Segment.HNHBS, Segment.HNHBK, BLZ, UserID, PIN, Segment.HISYN, segments, Segment.HIRMS));
+        }
+
+        /// <summary>
+        /// Balance
+        /// </summary>
         public static string HKSAL(int Konto, int BLZ, string IBAN, string BIC, string URL, int HBCIVersion, string UserID, string PIN)
         {
             Log.Write("Starting job HKSAL: Request balance");
