@@ -140,7 +140,7 @@ namespace libfintx
             if (Transaction.INI_ANONYMOUS(BLZ, URL, HBCIVersion, UserID, PIN) == true)
             {
                 // Success
-                var BankCode = Transaction.HKSAL(Account, BLZ, IBAN, BIC, URL, HBCIVersion, UserID, PIN);
+                var BankCode = Transaction.HKSAL_ANONYMOUS(Account, BLZ, IBAN, BIC, URL, HBCIVersion, UserID, PIN);
 
                 if (BankCode.Contains("+0020::"))
                 {
